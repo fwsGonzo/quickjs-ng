@@ -273,11 +273,6 @@ endif()
 if(WATCHOS)
     list(APPEND qjs_defines _WATCHOS)
 endif()
-list(APPEND qjs_libs ${CMAKE_DL_LIBS})
-find_package(Threads)
-if(NOT CMAKE_SYSTEM_NAME STREQUAL "WASI")
-    list(APPEND qjs_libs ${CMAKE_THREAD_LIBS_INIT})
-endif()
 
 # try to find libm
 find_library(M_LIBRARIES m)
@@ -317,10 +312,4 @@ if(WIN32)
     target_link_libraries(qjs_module_lib INTERFACE
         qjs
     )
-endif()
-
-if(NOT QJS_BUILD_LIBC)
-    add_library(qjs-libc STATIC quickjs-libc.c)
-    target_compile_definitions(qjs-libc PRIVATE ${qjs_defines})
-    target_link_libraries(qjs-libc PRIVATE ${qjs_libs} qjs)
 endif()

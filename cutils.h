@@ -612,9 +612,14 @@ static inline int js_exepath(char* buffer, size_t* size);
 
 /* Cross-platform threading APIs. */
 
-#if defined(EMSCRIPTEN) || defined(__wasi__) || defined(__DJGPP)
+#if defined(EMSCRIPTEN) || defined(__wasi__) || defined(__DJGPP) || 1
 
 #define JS_HAVE_THREADS 0
+
+#ifndef CLOCK_MONOTONIC
+#define CLOCK_MONOTONIC 1
+extern int clock_gettime(int clk_id, struct timespec *tp);
+#endif
 
 #else
 
